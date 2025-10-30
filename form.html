@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <style>
+    body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
+    header, footer { background: #222; color: #fff; padding: 1.5rem; text-align: center; }
+    form { display: flex; flex-direction: column; gap: 15px; }
+    label { font-weight: bold; }
+    input, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { background: #2575fc; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1a5bb8; }
+    .success { display: none; color: green; text-align: center; }
+    footer { font-size: 0.9rem; }
+
+  </style>
+</head>
+<body>
+    <header>
+        <h3>Contact Me 🚀</h3>
+    </header>
+  
+  
+  <form action="https://formspree.io/f/xdkpllvj" method="POST">  <!-- Replace with your endpoint! -->
+    
+    <p>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required>
+    </p>
+    
+    <p>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+    </p>
+    
+    <p>
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="4" cols="40" placeholder="Tell me about yourself..." required></textarea>
+    </p>
+    
+    <button type="submit">Send Message 📧</button>
+  </form>
+
+  <!-- Success Message (shows after submit) -->
+  <div class="success" id="success">Thanks! I'll reply soon. 🎉</div>
+
+  <script>
+    // Show success message after submit
+    document.querySelector('form').addEventListener('submit', function() {
+      document.querySelector('.success').style.display = 'block';
+      this.style.display = 'none';  // Hide form
+    });
+  </script>
+
+</body>
+</html>
