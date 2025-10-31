@@ -64,10 +64,34 @@
     }
     .success {
       display: none;
-      color: green;
       text-align: center;
       font-weight: 600;
       margin-top: 20px;
+      color: green;
+      animation: fadeIn 1s ease;
+    }
+    .error {
+      display: none;
+      text-align: center;
+      font-weight: 600;
+      margin-top: 20px;
+      color: red;
+      animation: fadeIn 1s ease;
+    }
+    .back-btn {
+      display: none;
+      margin: 20px auto 0;
+      background: #222;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #2575fc;
+      transform: translateY(-3px);
     }
     footer {
       background: #222;
@@ -78,13 +102,17 @@
       border-radius: 10px;
       box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
   <header>
     <h3>Contact Me 🚀</h3>
   </header>
-  <form action="https://formspree.io/f/xdkpllvj" method="POST">
+  <form id="contactForm" action="https://formspree.io/f/xdkpllvj" method="POST">
     <p>
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -99,15 +127,44 @@
     </p>
     <button type="submit">Send Message 📧</button>
   </form>
-  <div class="success" id="success">Thanks! I'll reply soon. 🎉</div>
+
+  <div class="success" id="success">✅ Thanks! I'll reply soon. 🎉</div>
+  <div class="error" id="error">❌ Oops! Something went wrong. Please try again.</div>
+  <a href="index.html" class="back-btn" id="backBtn">🏠 Back to Home</a>
+
   <footer>
     <p>© 2025 Israel Fowora. All rights reserved.</p>
   </footer>
+
   <script>
-    document.querySelector('form').addEventListener('submit', function(event) {
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('success');
+    const errorMsg = document.getElementById('error');
+    const backBtn = document.getElementById('backBtn');
+
+    form.addEventListener('submit', async function(event) {
       event.preventDefault();
-      this.style.display = 'none';
-      document.querySelector('.success').style.display = 'block';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          form.style.display = 'none';
+          successMsg.style.display = 'block';
+          backBtn.style.display = 'inline-block';
+        } else {
+          errorMsg.style.display = 'block';
+        }
+      } catch (error) {
+        errorMsg.style.display = 'block';
+      }
     });
   </script>
 </body>
